@@ -7,7 +7,7 @@ import VideoGridItem from "./VideoGridItem";
 
 export default function AuthorGrid() {
   const dispatch = useDispatch();
-  const { AuthorVideos, isLoading, isError, error } = useSelector(
+  const { authorVideos, isLoading, isError, error } = useSelector(
     (state) => state.videos
   );
   const { author } = useParams();
@@ -23,11 +23,11 @@ export default function AuthorGrid() {
   if (!isLoading && isError)
     content = <div className="col-span-12">{error}</div>;
 
-  if (!isError && !isLoading && AuthorVideos?.length === 0) {
+  if (!isError && !isLoading && authorVideos?.length === 0) {
   }
 
-  if (!isError && !isLoading && AuthorVideos?.length > 0) {
-    content = AuthorVideos.map((video) => (
+  if (!isError && !isLoading && authorVideos?.length > 0) {
+    content = authorVideos.map((video) => (
       <VideoGridItem key={video.id} video={video} />
     ));
   }

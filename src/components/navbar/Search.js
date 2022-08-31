@@ -6,7 +6,7 @@ export default function Search() {
   const dispatch = useDispatch();
   const { search } = useSelector((state) => state.filter);
 
-  const match = useMatch("/filtered");
+  const match = useMatch("/");
   const navigate = useNavigate();
 
   return (
@@ -19,7 +19,7 @@ export default function Search() {
       onChange={(e) => {
         dispatch(searched(e.target.value));
         if (!match) {
-          navigate("/filtered");
+          navigate("/");
         }
       }}
     />

@@ -9,6 +9,7 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 const initialState = {
   filteredVideos: [],
+  authorVideos: [],
   videos: [],
   isLoading: false,
   isError: false,
@@ -101,11 +102,11 @@ const videoSlice = createSlice({
       })
       .addCase(fetchAuthorVideos.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.filteredVideos = action.payload;
+        state.authorVideos = action.payload;
       })
       .addCase(fetchAuthorVideos.rejected, (state, action) => {
         state.isLoading = false;
-        state.filteredVideos = [];
+        state.authorVideos = [];
         state.isError = true;
         state.error = action.error?.message;
       });

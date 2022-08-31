@@ -1,19 +1,25 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPagiVidoes } from "../../features/videos/videosSlice";
+import {
+  fetchPagiVidoes,
+  fetchVideos,
+} from "../../features/videos/videosSlice";
 import Loading from "../ui/Loading";
 import VideoGridItem from "./VideoGridItem";
 
-export default function VideGrid({}) {
+export default function VideGrid() {
   const dispatch = useDispatch();
-  const { videos, isLoading, isError, error } = useSelector(
-    (state) => state.videos
+  const { videos, filteredVideos, authorVideos, isLoading, isError, error } =
+    useSelector((state) => state.videos);
+  console.log(filteredVideos);
+  const { page, limit, tags, search, author } = useSelector(
+    (state) => state.filter
   );
-  const { page, limit, tags, search } = useSelector((state) => state.filter);
 
   useEffect(() => {
     dispatch(fetchPagiVidoes({ page, limit }));
-  }, [dispatch, page, limit]);
+    dispatch(fetchVideos({ tags, search }));
+  }, [dispatch, page, limit, tags, search]);
 
   // decide what to render
   let content;
@@ -26,8 +32,18 @@ export default function VideGrid({}) {
     content = <div className="col-span-12">No videos found!</div>;
   }
 
-  if (!isError && !isLoading && videos?.length > 0) {
+  if (
+    !isError &&
+    !isLoading &&
+    tags?.length === 0 &&
+    search === "" &&
+    !author
+  ) {
     content = videos.map((video) => (
+      <VideoGridItem key={video.id} video={video} />
+    ));
+  } else if (!isError && !isLoading) {
+    content = filteredVideos.map((video) => (
       <VideoGridItem key={video.id} video={video} />
     ));
   }

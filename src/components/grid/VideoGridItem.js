@@ -23,7 +23,7 @@ export default function VideoGridItem({ video = {} }) {
             <img src={avatar} className="rounded-full h-6 w-6" alt={author} />
           </Link>
 
-          <div clas="flex flex-col">
+          <div className="flex flex-col">
             <Link to={`/videos/${id}`}>
               <p className="text-slate-900 text-sm font-semibold">{title}</p>
             </Link>
