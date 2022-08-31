@@ -1,20 +1,30 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage } from "../../features/filter/filterSlice";
+import { fetchVideosCount } from "../../features/videos/videosSlice";
+
 export default function Pagination() {
-    return (
-        <section className="pt-12">
-            <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 justify-end">
-                <div className="bg-blue-600 text-white px-4 py-1 rounded-full">
-                    1
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    2
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    3
-                </div>
-                <div className="bg-blue-100 text-blue-600 px-4 py-1 rounded-full">
-                    4
-                </div>
-            </div>
-        </section>
-    );
+  const dispatch = useDispatch();
+  const { totalVideos } = useSelector((state) => state.videos);
+  const pageCount = parseInt(totalVideos / 3);
+  useEffect(() => {
+    dispatch(fetchVideosCount());
+  }, [dispatch]);
+  return (
+    <section className="pt-12">
+      <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 justify-end">
+        {[...Array(pageCount).keys()].map((num) => (
+          <button
+            key={Math.random()}
+            className="bg-blue-600 text-white px-4 py-1 rounded-full"
+            onClick={(e) => {
+              dispatch(setPage(parseInt(e.target.innerText)));
+            }}
+          >
+            {num + 1}
+          </button>
+        ))}
+      </div>
+    </section>
+  );
 }
