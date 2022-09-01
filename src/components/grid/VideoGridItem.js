@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { reset, setAuthor } from "../../features/filter/filterSlice";
 
 export default function VideoGridItem({ video = {} }) {
   const { id, thumbnail, title, duration, author, avatar, views, date } = video;
   const dispatch = useDispatch();
+  const { searchRef } = useSelector((state) => state.filter);
 
   return (
     <div className="col-span-12 sm:col-span-6 md:col-span-3 duration-300 hover:scale-[1.03]">
@@ -32,6 +33,7 @@ export default function VideoGridItem({ video = {} }) {
               className="text-gray-400 text-xs mt-2 hover:text-gray-600 text-start"
               onClick={() => {
                 dispatch(reset());
+                searchRef.current.value = "";
                 dispatch(setAuthor(author));
               }}
             >
