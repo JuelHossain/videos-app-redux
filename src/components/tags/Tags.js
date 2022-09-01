@@ -19,13 +19,13 @@ export default function Tags() {
   }, [dispatch]);
 
   return tags?.length > 0 ? (
-    <section className="flex justify-between">
-      <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 border-b overflow-y-auto">
+    <section className="flex justify-between max-w-7xl mx-auto">
+      <div className="px-5 py-6 lg:px-0 flex gap-2 border-b overflow-y-auto">
         {tags.map((tag) => (
           <Tag key={tag.id} title={tag.title} />
         ))}
       </div>
-      <div className="max-w-7xl mx-auto px-5 py-6 lg:px-0 flex gap-2 border-b overflow-y-auto">
+      <div className=" px-5 py-6 lg:px-0 flex gap-2 border-b overflow-y-auto">
         <button
           disabled={selectedTags.length === 0 && search === "" && author === ""}
           className="bg-red-400 text-white px-4 py-1 rounded-full disabled:bg-gray-200 disabled:text-gray-500"
