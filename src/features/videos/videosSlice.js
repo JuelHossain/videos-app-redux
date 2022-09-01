@@ -1,15 +1,9 @@
-import {
-  getAuthorVideos,
-  getPagiVideos,
-  getVideoCount,
-  getVideos,
-} from "./videosAPI";
+import { getPagiVideos, getVideoCount, getVideos } from "./videosAPI";
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 const initialState = {
   filteredVideos: [],
-  authorVideos: [],
   videos: [],
   isLoading: false,
   isError: false,
@@ -20,15 +14,8 @@ const initialState = {
 // async thunk
 export const fetchVideos = createAsyncThunk(
   "videos/fetchVideos",
-  async ({ tags, search }) => {
-    const videos = await getVideos(tags, search);
-    return videos;
-  }
-);
-export const fetchAuthorVideos = createAsyncThunk(
-  "videos/fetchAuthorVideos",
-  async (author) => {
-    const videos = await getAuthorVideos(author);
+  async ({ tags, search, author }) => {
+    const videos = await getVideos(tags, search, author);
     return videos;
   }
 );
@@ -93,20 +80,6 @@ const videoSlice = createSlice({
       .addCase(fetchPagiVidoes.rejected, (state, action) => {
         state.isLoading = false;
         state.videos = [];
-        state.isError = true;
-        state.error = action.error?.message;
-      })
-      .addCase(fetchAuthorVideos.pending, (state) => {
-        state.isError = false;
-        state.isLoading = true;
-      })
-      .addCase(fetchAuthorVideos.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.authorVideos = action.payload;
-      })
-      .addCase(fetchAuthorVideos.rejected, (state, action) => {
-        state.isLoading = false;
-        state.authorVideos = [];
         state.isError = true;
         state.error = action.error?.message;
       });

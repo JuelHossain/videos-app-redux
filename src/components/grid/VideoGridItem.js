@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { reset, setAuthor } from "../../features/filter/filterSlice";
 
 export default function VideoGridItem({ video = {} }) {
   const { id, thumbnail, title, duration, author, avatar, views, date } = video;
@@ -27,12 +28,15 @@ export default function VideoGridItem({ video = {} }) {
             <Link to={`/videos/${id}`}>
               <p className="text-slate-900 text-sm font-semibold">{title}</p>
             </Link>
-            <Link
-              className="text-gray-400 text-xs mt-2 hover:text-gray-600"
-              to={`/author/${author}`}
+            <button
+              className="text-gray-400 text-xs mt-2 hover:text-gray-600 text-start"
+              onClick={() => {
+                dispatch(reset());
+                dispatch(setAuthor(author));
+              }}
             >
               {author}
-            </Link>
+            </button>
             <p className="text-gray-400 text-xs mt-1">
               {views} views . {date}
             </p>

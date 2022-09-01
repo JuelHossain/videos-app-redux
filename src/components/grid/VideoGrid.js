@@ -9,8 +9,9 @@ import VideoGridItem from "./VideoGridItem";
 
 export default function VideGrid() {
   const dispatch = useDispatch();
-  const { videos, filteredVideos, authorVideos, isLoading, isError, error } =
-    useSelector((state) => state.videos);
+  const { videos, filteredVideos, isLoading, isError, error } = useSelector(
+    (state) => state.videos
+  );
   console.log(filteredVideos);
   const { page, limit, tags, search, author } = useSelector(
     (state) => state.filter
@@ -18,8 +19,8 @@ export default function VideGrid() {
 
   useEffect(() => {
     dispatch(fetchPagiVidoes({ page, limit }));
-    dispatch(fetchVideos({ tags, search }));
-  }, [dispatch, page, limit, tags, search]);
+    dispatch(fetchVideos({ tags, search, author }));
+  }, [dispatch, page, limit, tags, search, author]);
 
   // decide what to render
   let content;
@@ -37,15 +38,17 @@ export default function VideGrid() {
     !isLoading &&
     tags?.length === 0 &&
     search === "" &&
-    !author
+    author === ""
   ) {
     content = videos.map((video) => (
       <VideoGridItem key={video.id} video={video} />
     ));
-  } else if (!isError && !isLoading) {
+  } else if (!isError && !isLoading && filteredVideos.length > 0) {
     content = filteredVideos.map((video) => (
       <VideoGridItem key={video.id} video={video} />
     ));
+  } else if (filteredVideos.length === 0) {
+    content = <div className="col-span-12">No videos found!</div>;
   }
 
   return (

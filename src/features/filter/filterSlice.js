@@ -3,7 +3,9 @@ const { createSlice } = require("@reduxjs/toolkit");
 const initialState = {
   tags: [],
   search: "",
-  author: false,
+  searchRef: null,
+  author: "",
+  pageRequired: true,
   page: 1,
   limit: 4,
 };
@@ -31,16 +33,32 @@ const filterSlice = createSlice({
     setLimit: (state, action) => {
       state.limit = action.payload;
     },
-    toggleAuthor: (state, action) => {
-      if (state.author === false) {
-        state.author = true;
-      } else {
-        state.author = false;
-      }
+    setAuthor: (state, action) => {
+      state.author = action.payload;
+    },
+    setPageRequired: (state, action) => {
+      state.pageRequired = action.payload;
+    },
+    reset: (state, action) => {
+      state.tags = [];
+      state.search = "";
+      state.author = "";
+    },
+    setSearchRef: (state, action) => {
+      state.searchRef = action.payload;
     },
   },
 });
 
 export default filterSlice.reducer;
-export const { tagSelected, tagRemoved, searched, setPage, setLimit, toggleAuthor } =
-  filterSlice.actions;
+export const {
+  tagSelected,
+  tagRemoved,
+  searched,
+  setPage,
+  setLimit,
+  setAuthor,
+  setPageRequired,
+  reset,
+  setSearchRef,
+} = filterSlice.actions;
